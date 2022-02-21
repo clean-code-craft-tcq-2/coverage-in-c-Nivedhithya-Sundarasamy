@@ -120,17 +120,20 @@ bool checkIfBreachTypeMatches(BreachType breachType, int index) {
 	return (breachType == breachTypeAlertStatementPairs[index].breachType) ? true : false;
 }
 
+void sendAlertEmail(int matchingIndex, int index, void (*fpAlertPrint) (const char*),
+	const char* recepient) {
+		// Don't alert for NORMAL breach type (i.e value=2)
+		if(matchingIndex && (index != 2)){
+			fpAlertPrint(recepient);
+			fpAlertPrint(breachTypeAlertStatementPairs[index].alertStatement);
+		}
+}
+
 void sendToEmail(BreachType breachType, void (*fpAlertPrint) (const char*)){
-  const char* recepient = "a.b@c.com";
+	char recepient[15] = "a.b@c.com";
 	int matchingIndex, numberOfBreachTypes = 3;
 	for(int i=0; i<numberOfBreachTypes; i++){
 		matchingIndex = checkIfBreachTypeMatches(breachType, i);
-		// Don't alert for NORMAL breach type (i.e value=2)
-		if(matchingIndex && (i != 2)){
-			fpAlertPrint(recepient);
-			fpAlertPrint(breachTypeAlertStatementPairs[i].alertStatement);
-			break;
-		}
+		sendAlertEmail(matchingIndex, i, fpAlertPrint, recepient);
   }
 }
-
