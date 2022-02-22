@@ -60,6 +60,7 @@ bool checkIfAlertTargetMatches(AlertTarget alertTarget, int index);
 void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC, void (*fpAlertMethod) (const char*));
 void convertBreachTypeToString(BreachType breachType, char* breachTypeString, char* header);
 void sendToController(BreachType breachType, void (*fpAlertMethod) (const char*));
+void sendAlertEmail(int matchingIndex, int index, void (*fpAlertPrint) (const char*), const char* recepient);
 bool checkIfBreachTypeMatches(BreachType breachType, int index);
 void sendToEmail(BreachType breachType, void (*fpAlertMethod) (const char*));
 void print(const char* printStatement);

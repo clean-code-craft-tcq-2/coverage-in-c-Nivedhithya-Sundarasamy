@@ -22,7 +22,7 @@ jobs:
       run: ./testchecker
 
     - name: collect coverage
-      run: gcovr --gcov-exclude=".*test.*" -r . --html --html-details -o coverage.html --print-summary
+      run: gcovr --gcov-exclude="*test.*" --gcov-exclude="Test*" -r . --html --html-details -o coverage.html --print-summary
 
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v2

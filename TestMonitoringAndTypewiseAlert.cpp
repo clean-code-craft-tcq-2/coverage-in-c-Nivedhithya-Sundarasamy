@@ -52,6 +52,7 @@ TEST_CASE("check if the given index matches with given breach type") {
 
 TEST_CASE("Send alert to controller") {
 	printCallCount = 0;
+	sendToController(TOO_HIGH, print);
 	sendToController(TOO_HIGH, fakePrint);
 	REQUIRE(printCallCount == 1);
 }
@@ -61,15 +62,42 @@ TEST_CASE("Send alert to EMAIL") {
 	sendToEmail(TOO_LOW, fakePrint);
 	REQUIRE(printCallCount == 2);
 }
+
+TEST_CASE("Send Email") {
+	printCallCount = 0;
+	sendAlertEmail(true,1,fakePrint,"a.b@c.com");
+	REQUIRE(printCallCount == 2);
+}
 	
-TEST_CASE("Check the value and alert") {
+TEST_CASE("Check the value and alert for Passive Cooling") {
 	BatteryCharacter batteryCharacter;
 	batteryCharacter.coolingType = PASSIVE_COOLING;
 	printCallCount = 0;
 	checkAndAlert(TO_CONTROLLER, batteryCharacter, -10, print);
 	checkAndAlert(TO_EMAIL, batteryCharacter, -10, fakePrint);
 	checkAndAlert(TO_EMAIL, batteryCharacter, 10, fakePrint);
-	checkAndAlert(TO_EMAIL, batteryCharacter, 40, fakePrint);
-	REQUIRE(printCallCount == 4);
+	checkAndAlert(TO_CONTROLLER, batteryCharacter, 40, fakePrint);
+	REQUIRE(printCallCount == 3);
 }
 
+TEST_CASE("Check the value and alert for High Active Cooling") {
+	BatteryCharacter batteryCharacter;
+	batteryCharacter.coolingType = HI_ACTIVE_COOLING;
+	printCallCount = 0;
+	checkAndAlert(TO_CONTROLLER, batteryCharacter, -10, print);
+	checkAndAlert(TO_EMAIL, batteryCharacter, -10, fakePrint);
+	checkAndAlert(TO_EMAIL, batteryCharacter, 20, fakePrint);
+	checkAndAlert(TO_CONTROLLER, batteryCharacter, 50, fakePrint);
+	REQUIRE(printCallCount == 3);
+}
+
+TEST_CASE("Check the value and alert for Medium Active Cooling") {
+	BatteryCharacter batteryCharacter;
+	batteryCharacter.coolingType = MED_ACTIVE_COOLING;
+	printCallCount = 0;
+	checkAndAlert(TO_CONTROLLER, batteryCharacter, -10, print);
+	checkAndAlert(TO_EMAIL, batteryCharacter, -10, fakePrint);
+	checkAndAlert(TO_EMAIL, batteryCharacter, 20, fakePrint);
+	checkAndAlert(TO_CONTROLLER, batteryCharacter, 50, fakePrint);
+	REQUIRE(printCallCount == 3);
+}
