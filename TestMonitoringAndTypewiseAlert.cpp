@@ -80,24 +80,3 @@ TEST_CASE("Check the value and alert for Passive Cooling") {
 	REQUIRE(printCallCount == 3);
 }
 
-TEST_CASE("Check the value and alert for High Active Cooling") {
-	BatteryCharacter batteryCharacter;
-	batteryCharacter.coolingType = HI_ACTIVE_COOLING;
-	printCallCount = 0;
-	checkAndAlert(TO_CONTROLLER, batteryCharacter, -10, print);
-	checkAndAlert(TO_EMAIL, batteryCharacter, -10, fakePrint);
-	checkAndAlert(TO_EMAIL, batteryCharacter, 20, fakePrint);
-	checkAndAlert(TO_CONTROLLER, batteryCharacter, 50, fakePrint);
-	REQUIRE(printCallCount == 3);
-}
-
-TEST_CASE("Check the value and alert for Medium Active Cooling") {
-	BatteryCharacter batteryCharacter;
-	batteryCharacter.coolingType = MED_ACTIVE_COOLING;
-	printCallCount = 0;
-	checkAndAlert(TO_CONTROLLER, batteryCharacter, -10, print);
-	checkAndAlert(TO_EMAIL, batteryCharacter, -10, fakePrint);
-	checkAndAlert(TO_EMAIL, batteryCharacter, 20, fakePrint);
-	checkAndAlert(TO_CONTROLLER, batteryCharacter, 50, fakePrint);
-	REQUIRE(printCallCount == 3);
-}
